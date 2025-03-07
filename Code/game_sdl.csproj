@@ -73,7 +73,7 @@
     <Compile Include="ZloediUtils/GalliumMath/Vector2Int.cs" />
     <Compile Include="ZloediUtils/GalliumMath/Vector3.cs" />
     <Compile Include="ZloediUtils/GalliumMath/Vector3Int.cs" />
-    <Compile Include="ArrayUtil.cs" />
+    <!--Compile Include="ArrayUtil.cs" /-->
     <!--Compile Include="Draw.cs" /-->
     <!--Compile Include="Game.cs" /-->
     <!--Compile Include="Game_sv.cs" /-->
@@ -84,7 +84,7 @@
     <!--Compile Include="Pawn.cs" /-->
     <!--Compile Include="PawnDef.cs" /-->
     <!--Compile Include="Player.cs" /-->
-    <Compile Include="Recompile.cs" />
+    <!--Compile Include="Recompile.cs" /-->
     <!--Compile Include="TickUtil.cs" /-->
     <!--Compile Include="Client.cs" /-->
     <!--Compile Include="ClientPlayQGL.cs" /-->
