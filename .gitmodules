@@ -1,0 +1,6 @@
+[submodule "Code/ZloediUtils"]
+	path = Code/ZloediUtils
+	url = https://github.com/zloedi/ZloediUtils
+[submodule "ZloediUtils"]
+	path = ZloediUtils
+	url = https://github.com/zloedi/ZloediUtils
