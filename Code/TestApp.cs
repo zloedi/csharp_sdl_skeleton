@@ -51,6 +51,10 @@ static void QonsolePostStart_kmd( string [] _ ) {
         return;
     }
 
+    HotRoslyn.Log = s => Qonsole.Log($"Roslyn: {s}");
+    HotRoslyn.Error = s => Qonsole.Log($"Roslyn: {s}");
+    HotRoslyn.TryInit();
+
     _clockDate = DateTime.UtcNow;
     _clockPrevDate = DateTime.UtcNow;
     Qonsole.Log( Guid.NewGuid() );
