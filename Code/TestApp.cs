@@ -84,8 +84,7 @@ static void QonsoleTick_kmd( string [] _ ) {
     _clockPrevDate = _clockDate;
 
     if ( ShowFrameTime_kvar ) {
-        QGL.LatePrint( ( ( int )( Time.deltaTime * 1000 ) ).ToString("000"),
-                                                                            Screen.width - 50, 20 );
+        QGL.LatePrint( ( ( int )( Time.deltaTime * 1000 ) ).ToString("00"), Screen.width - 50, 20 );
     }
 
     } catch ( Exception e ) {
