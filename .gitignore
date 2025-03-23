@@ -14,3 +14,4 @@ Code/**/*.pdb
 Code/**/*.exe
 Code/tags
 Code/vim_session_*
+Code/packages
