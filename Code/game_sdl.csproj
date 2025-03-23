@@ -124,6 +124,9 @@
           copy $(ProjectDir)ZloediUtils\SDL\libSDL* $(ProjectDir)..\BuildSDL
           copy $(TargetPath) $(ProjectDir)..\BuildSDL
           copy $(TargetDir)game_sdl.pdb $(ProjectDir)..\BuildSDL
+          copy $(TargetDir)Microsoft*.dll $(ProjectDir)..\BuildSDL
+          copy $(TargetDir)Microsoft*.pdb $(ProjectDir)..\BuildSDL
+          copy $(TargetDir)System.Collections*.dll $(ProjectDir)..\BuildSDL
       </PostBuildEvent>
   </PropertyGroup>
 </Project>
