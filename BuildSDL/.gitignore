@@ -3,3 +3,5 @@
 *.dll
 libSDL*
 *.cfg
+*.exe.config
+*.xml
