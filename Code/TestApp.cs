@@ -82,6 +82,8 @@ static void QonsoleTick_kmd( string [] _ ) {
     double timeDelta = ( _clockDate - _clockPrevDate ).TotalMilliseconds;
     int timeDeltaMs = ( int )timeDelta;
     _clockPrevDate = _clockDate;
+    
+    Qonsole.TryExecute( "game_tick", context: timeDelta, silent: true );
 
     if ( ShowFrameTime_kvar ) {
         QGL.LatePrint( ( ( int )( Time.deltaTime * 1000 ) ).ToString("00"), Screen.width - 50, 20 );

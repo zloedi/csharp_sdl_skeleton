@@ -131,8 +131,13 @@ public static class Recompile
         }
         _rt = type;
 
-        Qonsole.Log("Invoking 'AfterRecompile'...");
-        _rt.GetMethod("AfterRecompile")?.Invoke(null, null);
+        {
+            var method = _rt.GetMethod("AfterRecompile");
+            if ( method != null ) {
+                Qonsole.Log("Invoking 'AfterRecompile'...");
+                method.Invoke(null, null);
+            }
+        }
     }
 
     static void OnCompile(Assembly assembly) {
