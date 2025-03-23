@@ -51,9 +51,9 @@ static void QonsolePostStart_kmd( string [] _ ) {
         return;
     }
 
-    HotRoslyn.Log = s => Qonsole.Log($"Roslyn: {s}");
-    HotRoslyn.Error = s => Qonsole.Log($"Roslyn: {s}");
-    HotRoslyn.TryInit();
+#if ROSLYN
+    Recompile.Init();
+#endif
 
     _clockDate = DateTime.UtcNow;
     _clockPrevDate = DateTime.UtcNow;
@@ -87,12 +87,15 @@ static void QonsoleTick_kmd( string [] _ ) {
         QGL.LatePrint( ( ( int )( Time.deltaTime * 1000 ) ).ToString("00"), Screen.width - 50, 20 );
     }
 
+    Recompile.Update();
+
     } catch ( Exception e ) {
         Qonsole.Error( e );
     }
 }
 
 static void QonsoleDone_kmd( string [] _ ) {
+    Recompile.Done();
 }
 
 
