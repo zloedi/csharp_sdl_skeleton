@@ -24,7 +24,7 @@ class Context {
 static Context ctx = new();
 
 public static void AfterRecompile() {
-    Qonsole.TryExecute("eval \"765. * 10f / .20 + 1.4 / 5\"");
+    Qonsole.TryExecute("eval \"+ 765. * -10f / .20 + 1.4 / 5\"");
 }
 
 public static void GameTick_kmd( string [] argv, double dt ) {
@@ -88,18 +88,24 @@ static void Const() {
 }
 
 static void Number() {
+    PushLex();
+
     Numeric();
     Or(); Numeric(); Dot(); Numeric();
     Or(); Dot(); Numeric();
     Or(); Numeric(); Dot();
+
+    PopLex();
 }
 
 static void Numeric() => ExpectRangeOneOrMore( '0', '9' );
 static void Dot() => Expect( '.' );
 static void Plus() => Expect( '+' );
 static void Minus() => Expect( '-' );
+static void Delimiter() => Expect( '+', '-', '*', '/', '%' );
 
 static void Or() {
+    Qonsole.Log( "OR" );
     if ( ctx.fail ) {
         ctx.fail = false;
         ctx.ci = ctx.cb;
@@ -114,40 +120,97 @@ static void TerminalEnd( string fail ) {
     if ( ctx.fail ) {
         Qonsole.Error( fail );
     }
+    Qonsole.Log( "terminal: " + ctx.terminal );
 }
 
 static void Expect( params int [] cp ) {
+    while ( LookAhead( ' ' ) ) {}
+
+    Qonsole.Print( ( char )ctx.c + " expect: " );
+
+    foreach ( int c in cp )
+        Qonsole.Print( ( char )c + " " );
+
     foreach ( int c in cp ) {
         if ( LookAhead( c ) ) {
+            Qonsole.Print( "[ffc000]match[-]\n" );
             return;
         }
     }
+    Fail();
+    Qonsole.Print( "fail\n" );
 }
 
 static void ExpectRangeOneOrMore( int cFrom, int cTo ) {
-//    while ( true )
-    {
-again:
-        if ( LookAhead( ' ' ) ) {}
 
-        for ( int c = cFrom; c <= cTo; c++ ) {
-            if ( LookAhead( c ) ) {
-                goto again;
-            }
-        }
+    while ( Consume( ' ' ) ) {}
 
+    Qonsole.Print( ( char )ctx.c + " expect: " + ( char )cFrom + "-" + ( char )cTo + " " );
+
+    if ( ! LookAheadRange( cFrom, cTo ) ) {
+        Fail();
+        Qonsole.Print( "fail\n" );
         return;
     }
+
+    Qonsole.Print( ( char )ctx.c + " expect: " + ( char )cFrom + "-" + ( char )cTo + " " );
+
+    while ( LookAheadRange( cFrom, cTo ) ) {
+        Qonsole.Print( ( char )ctx.c + " expect: " + ( char )cFrom + "-" + ( char )cTo + " " );
+    }
+
+    Qonsole.Print( "[ffc000]match[-]\n" );
+}
+
+static bool LookAheadRange( int cFrom, int cTo ) {
+    if ( ctx.fail ) {
+        return false;
+    }
+
+    if ( ctx.c == EOF ) {
+        EndOfFile();
+        return false;
+    }
+
+    if ( ctx.c >= cFrom && ctx.c <= cTo ) {
+        ctx.terminal += ( char )ctx.c;
+        ctx.ci++;
+        return true;
+    } 
+
+    return false;
 }
 
 static bool LookAhead( int c ) {
+    if ( ctx.fail ) {
+        return false;
+    }
+
     if ( ctx.c == EOF ) {
         EndOfFile();
         return false;
     }
 
     if ( ctx.c == c ) {
-        Qonsole.Log( ( char )ctx.c );
+        ctx.terminal += ( char )ctx.c;
+        ctx.ci++;
+        return true;
+    } 
+
+    return false;
+}
+
+static bool Consume( int c ) {
+    if ( ctx.fail ) {
+        return false;
+    }
+
+    if ( ctx.c == EOF ) {
+        EndOfFile();
+        return false;
+    }
+
+    if ( ctx.c == c ) {
         ctx.ci++;
         return true;
     } 
@@ -160,6 +223,7 @@ static void Fail() {
 }
 
 static void EndOfFile() {
+    Qonsole.Log( "EOF" );
 }
 
 } // Gym
